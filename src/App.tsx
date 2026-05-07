@@ -12,19 +12,19 @@ const SOCIAL_LINKS = [
     icon: <Music2 className="w-6 h-6" />,
     label: 'TikTok',
     description: 'Creative short-form content',
-    url: 'https://www.tiktok.com/@turkey_.x?_r=1&_t=ZS-96ADD6EAt6m',
+    url: import.meta.env.VITE_TIKTOK_URL || 'https://www.tiktok.com/@turkey_.x?_r=1&_t=ZS-96ADD6EAt6m',
   },
   {
     icon: <Instagram className="w-6 h-6" />,
     label: 'Instagram',
     description: 'Official Instagram profile',
-    url: 'https://www.instagram.com/turkey_.x/',
+    url: import.meta.env.VITE_INSTAGRAM_URL || 'https://www.instagram.com/turkey_.x/',
   },
   {
     icon: <ShoppingBag className="w-6 h-6" />,
     label: 'Aqareb Shop',
     description: 'Clothing & Lifestyle Store',
-    url: 'https://aqareb-zma8.vercel.app/',
+    url: import.meta.env.VITE_SHOP_URL || 'https://aqareb-zma8.vercel.app/',
   }
 ];
 
@@ -35,6 +35,10 @@ export default function App() {
   });
   const [showImageInput, setShowImageInput] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
+
+  const USER_NAME = import.meta.env.VITE_USER_NAME || 'Mostafa';
+  const USER_LOCATION = import.meta.env.VITE_USER_LOCATION || 'Cairo, Egypt';
+  const USER_EMAIL = import.meta.env.VITE_USER_EMAIL || 'Mostafa.Dev';
 
   useEffect(() => {
     localStorage.setItem('profile_image', profileImage);
@@ -99,7 +103,7 @@ export default function App() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-5xl sm:text-7xl font-normal font-display italic tracking-tight"
             >
-              Mostafa
+              {USER_NAME}
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0 }}
@@ -126,12 +130,13 @@ export default function App() {
               }}
               className="relative group"
             >
-              <div className="w-24 h-24 rounded-full border border-white/10 p-1.5 shadow-2xl shadow-white/5 cursor-pointer overflow-hidden" onClick={() => setShowImageInput(!showImageInput)}>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-white/10 p-1.5 shadow-2xl shadow-white/5 cursor-pointer overflow-hidden relative" onClick={() => setShowImageInput(!showImageInput)}>
                 <div className="w-full h-full rounded-full bg-gradient-to-br from-neutral-800 to-neutral-900 flex items-center justify-center overflow-hidden">
                   <img 
                     src={profileImage} 
                     alt="Profile" 
-                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110 antialiased"
+                    style={{ imageRendering: 'auto' }}
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&q=80&w=200&h=200';
@@ -139,7 +144,7 @@ export default function App() {
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-[10px] uppercase font-medium tracking-tighter">Edit</span>
+                  <span className="text-[10px] uppercase font-bold tracking-widest">تغيير</span>
                 </div>
               </div>
 
@@ -205,7 +210,7 @@ export default function App() {
               className="flex items-center gap-2 text-white/30 text-[10px] uppercase letter-spacing-wide"
             >
               <MapPin className="w-3 h-3" />
-              <span>Cairo, Egypt</span>
+              <span>{USER_LOCATION}</span>
             </motion.div>
           </div>
         </div>
@@ -285,7 +290,7 @@ export default function App() {
               <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse"></span>
               <span>Available for Projects</span>
             </div>
-            <a href="mailto:contact@mostafa.dev" className="text-white/60 hover:text-white transition-colors">Contact@Mostafa.Dev</a>
+            <a href={`mailto:${USER_EMAIL}`} className="text-white/60 hover:text-white transition-colors">{USER_EMAIL}</a>
           </div>
         </div>
       </motion.div>
